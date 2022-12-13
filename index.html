@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="favicon/favicon-32x32.png"
+    />
+    <link rel="stylesheet" href="index.css" />
+    <title>Cats</title>
+  </head>
+  <body>
+    <header>
+      <div>
+        <a class="logo" href="index.html">Cats</a>
+      </div>
+    </header>
+    <main id="main"></main>
+    <dialog id="showcard">
+      <img id="foto" class="foto" />
+      <form id = "formmodal" action="">
+      <div class="viewcard">
+        <p>
+          <label class="viewcard__label" for="id">ID</label>
+          <input
+            class="viewcard__input"
+            disabled
+            id="id"
+            name="id"
+            type="text"
+          />
+        </p>
+        <p>
+          <label class="viewcard__label" for="namecat">Имя кота</label>
+          <input
+            class="viewcard__input"
+            disabled
+            id="namecat"
+            name="namecat"
+            type="text"
+          />
+        </p>
+        <p>
+          <label class="viewcard__label" for="favorite">В избранном</label>
+          <select
+            disabled
+            class="viewcard__select"
+            id="favorite"
+            name="favorite"
+          >
+            <option value="true">Да</option>
+            <option value="false">Нет</option>
+          </select>
+        </p>
+        <p>
+          <label class="viewcard__label" for="rate">Оценка</label>
+          <select disabled class="viewcard__select" name="rate" id="rate">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select>
+        </p>
+        <p>
+          <label class="viewcard__label" for="age">Возраст</label>
+          <select disabled class="viewcard__select" name="age" id="age">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select>
+        </p>
+        <label class="viewcard__label" for="description">Описание</label>
+        <textarea
+          class="viewcard__textarea"
+          disabled
+          name="description"
+          id="description"
+          rows="3"
+          cols="33"
+        ></textarea>
+        <label class="viewcard__label" for="link">Ссылка на фото</label>
+        <textarea
+          disabled
+          class="viewcard__textarea"
+          name="image"
+          id="image"
+          cols="33"
+          rows="2"
+        ></textarea>
+      </div>
+
+    </form>
+      <div id="message" class="message"></div>
+      <div class="button-container">
+        <button id="add" class="button add">Добавить</button>
+        <button id="edit" class="button edit">Редактировать</button>
+      </div>
+      <div class="button-container">
+        <button id="deletecat" class="button delete">Удалить</button>
+        <button id="closecard" class="button close">Закрыть</button>
+      </div>
+    </dialog>
+    <script src="index.js"></script>
+  </body>
+</html>
