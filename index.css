@@ -1,15 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
 
 @font-face {
-  font-family: "Ananda";
-  src: url("fonts/AnandaBlackPersonalUseRegular-rg9Rx.ttf");
-  font-style: normal;
-  font-display: fallback;
-}
-@font-face {
-  font-family: 'Kurale';
-  src: url('fonts/Kurale-Regular.ttf');
-  font-style: normal;
+  font-family: "Rooster";
+  src: url("fonts/RoosterPersonalUse-3z8d8.ttf");
   font-display: fallback;
 }
 
@@ -17,219 +10,297 @@ body {
   margin: 0px;
   padding: 0px;
   background: linear-gradient(to right, #859398, #283048);
-  backdrop-filter: blur(20px);
-  width: 100vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  backdrop-filter: blur(20px);
 }
-
 header {
-  margin-top: 10px;
-  min-height: 80px;
+  margin-top: 20px;
+  min-height: 60px;
+  max-width: 1000px;
   width: 80vw;
-  max-width: 1100px;
   background-color: white;
   border-radius: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.logo {
+
+/* Логотип */
+.logo-container {
+  margin-left: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+.logo-container__title {
   text-decoration: none;
   white-space: nowrap;
-  font-family: "Ananda", Arial, Helvetica, sans-serif;
+  font-family: "Rooster";
   font-size: 50px;
+  font-weight: 500;
   color: darkmagenta;
-  margin-left: 50px;
+  padding-bottom: 10px;
+}
+/* Все кнопки */
+.button-container {
+  margin-right: 25px;
+  display: flex;
+  gap: 20px;
 }
 .button {
-  width: 150px;
-  height: 30px;
-  border: 1px solid grey;
-  border-radius: 10px;
+  height: 35px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
   font-family: "Roboto", sans-serif;
   font-size: 17px;
-  font-weight: 500;
-  text-align: center;
   color: white;
-  cursor: pointer;
-  outline: none;
-  transition: all 0.2s linear;
-}
-.button:hover {
-  transform: scale(1.05);
+  transition: all 0.5s linear;
 }
 .button:disabled {
-  opacity: 0.3;
+  opacity: 0.5;
+}
+
+.delete {
+  width: 100px;
+  background-color: red;
 }
 .add {
-  background: linear-gradient(135deg, rgb(194, 209, 237), rgb(3, 192, 60));
-}
-.delete {
-  background: linear-gradient(135deg, rgb(194, 209, 237), rgb(255, 0, 0));
+  width: 100px;
+  background-color: limegreen;
 }
 .edit {
-  background: linear-gradient(135deg, rgb(194, 209, 237), rgb(0, 49, 83));
+  background-color: #4a00e0;
+  width: 300px;
 }
 .close {
-  background: linear-gradient(135deg, rgb(194, 209, 237), rgb(255, 0, 0));
+  background-color: red;
+  width: 300px;
 }
 
 main {
-  margin-top: 15px;
-  margin-bottom: 10px;
-  max-width: 1100px;
-  width: 80vw;
   min-height: 80vh;
-  background-color: white;
+  max-width: 1000px;
+  width: 80vw;
+  margin-top: 25px;
+  margin-bottom: 20px;
   border-radius: 10px;
-  padding-top: 10px;
-  padding-bottom: 10px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 310px));
-  gap: 5px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 10px;
   justify-content: center;
   align-items: center;
   justify-items: center;
 }
+
 .card {
+  height: 170px;
+  width: 320px;
+  border-radius: 15px;
+  box-shadow: 0px 0px 2px 3px white;
   margin-bottom: 5px;
-  height: 170px;
-  width: 300px;
-  border-radius: 10px;
-  cursor: pointer;
   position: relative;
+  /* background-image: url("https://101kote.ru/upload/medialibrary/46f/20.jpg"); */
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  animation: show 1s ease 0s 1 normal forwards;
 }
-.card:hover {
-  transform: scale(1.05);
+@keyframes show {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
-.card__foto {
-  height: 170px;
-  width: 300px;
-  border-radius: 10px;
-  pointer-events: none;
+
+.hide {
+  animation: close 1s ease 0s 1 normal forwards;
 }
-.card__name {
+
+@keyframes close {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(0);
+  }
+}
+
+.card-like {
   position: absolute;
+  top: 3px;
+  left: 0px;
+  width: 40px;
   height: 30px;
-  width: auto;
-  padding-left: 8px;
-  padding-right: 8px;
-  border-radius: 10px;
-  right: 5px;
-  bottom: 5px;
-  background-color: orangered;
-  color: white;
-  font-size: 20px;
-  font-family: Arial, Helvetica, sans-serif;
-  font-style: italic;
   display: flex;
   justify-content: center;
   align-items: center;
-  pointer-events: none;
+}
+.card-like__img {
+  height: 25px;
+  width: 35px;
 }
 
-dialog {
-  overflow: hidden;
-  height: 670px;
-  width: 330px;
+.nickname {
   position: absolute;
+  bottom: 3px;
+  right: 3px;
+  height: 30px;
+  background: linear-gradient(to bottom, #8e2de2, #4a00e0);
   border-radius: 10px;
-  opacity: 0;
-  transition: all 0.5s linear;
-  transform: scale(0.1);
+  padding-left: 10px;
+  padding-right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  font-style: italic;
+}
+.card-delete {
+  position: absolute;
+  height: 170px;
+  width: 320px;
+  background: rgba(190, 190, 190, 0.8);
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: red;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  font-style: italic;
+  text-align: center;
+
+  display: none;
+}
+.card-delete p {
+  pointer-events: none;
+}
+.card-delete__img {
+  margin-top: 5px;
+  height: 40px;
+  opacity: 0.8;
+  pointer-events: none;
 }
 dialog[open] {
   transform: scale(1);
   opacity: 1;
 }
 dialog::backdrop {
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(190, 190, 190, 0.9);
 }
-.foto {
-  height: 180px;
+.modal {
+  padding: 0;
+  position: absolute;
+  height: 650px;
+  width: 320px;
+  border-radius: 10px;
+  overflow: hidden;
+  transform: scale(0);
+  opacity: 0;
+  transition: all 0.5s linear;
+  display: block;
+}
+.modal__img {
+  height: 170px;
   width: 100%;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
-.viewcard {
-  padding: 5px;
+.modal-form {
+  margin: 10px 25px 10px 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
 }
-.viewcard p {
+.modal-box {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
+  border-bottom: 1px solid blue;
 }
-.viewcard__label {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 15px;
-  font-weight: 700;
+.modal__label {
+  font-family: "Roboto";
   font-style: italic;
-  
-}
-.viewcard__input {
-  width: 160px;
-  height: 20px;
-  font-family: 'Kurale', Helvetica, sans-serif;
-  font-size: 20px;
-  border: none;
-  border-bottom: 2px solid blue;
-  outline: none;
-  color: orangered;
-  text-align: end;
-}
-.viewcard__select {
-  width: 165px;
-  height: 25px;
-  font-family: 'Kurale', Helvetica, sans-serif;
   font-size: 18px;
+  font-weight: 500;
+}
+.modal__input {
+  font-family: Arial, Helvetica, sans-serif;
+  font-style: italic;
+  font-size: 18px;
+  width: 137px;
+  text-align: right;
   border: none;
-  border-bottom: 2px solid blue;
-  outline: none;
-  appearance: none;
+  padding-right: 8px;
   color: orangered;
-  text-align: end;
 }
-.viewcard__select:disabled {
-  opacity: 1;
-}
-.viewcard__textarea {
-  font-family: 'Kurale', Helvetica, sans-serif;
-  font-size: 17px;
+.modal__select {
+  font-family: Arial, Helvetica, sans-serif;
+  font-style: italic;
+  font-size: 18px;
+  width: 150px;
+  height: 27px;
+  text-align: right;
+  appearance: none;
   border: none;
-  border: 2px solid blue;
-  border-radius: 5px;
-  outline: none;
+  padding-right: 8px;
+  color: orangered;
+}
+.modal__textarea {
+  font-family: Arial, Helvetica, sans-serif;
+  font-style: italic;
+  font-size: 16px;
+  border: 1px solid blue;
+  resize: none;
+  color: orangered;
+}
+.modal__input:disabled,
+.modal__select:disabled,
+.modal__textarea:disabled {
+  opacity: 0.7;
   color: orangered;
 }
 .active {
+  opacity: 1;
   border-radius: 5px;
   border: 2px solid lime;
 }
+.modal-container {
+  margin-left: 10px;
+  margin-right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
 .message {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 15px;
-  color: green;
+  height: 18px;
+  color: limegreen;
   text-align: center;
 }
-.button-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-  margin-bottom: 5px;
-}
-@media (max-width: 1024px){
-  dialog{
-    padding: 0px;
-    padding-bottom: 50px;
+
+@media (max-width: 720px) {
+  header {
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
-}
-@media (max-width: 720px){
-  dialog{
-    width: 300px;
-    padding: 0px;
-    padding-bottom: 50px;
+  .button-container {
+    margin-right: 0;
+    margin-bottom: 10px;
   }
 }

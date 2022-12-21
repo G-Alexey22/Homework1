@@ -1,64 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="favicon/favicon-32x32.png"
-    />
+    <link rel="shortcut icon" href="favicon/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="index.css" />
+    <script defer src="index.js"></script>
     <title>Cats</title>
   </head>
   <body>
     <header>
-      <div>
-        <a class="logo" href="index.html">Cats</a>
+      <div class="logo-container">
+        <a href="index.html" class="logo-container__title">Cats</a>
+      </div>
+      <div class="button-container">
+        <button id="btnAdd" class="button add">Добавить</button>
+        <button id="btnDelete" class="button delete">Удалить</button>
       </div>
     </header>
-    <main id="main"></main>
-    <dialog id="showcard">
-      <img id="foto" class="foto" />
-      <form id = "formmodal" action="">
-      <div class="viewcard">
-        <p>
-          <label class="viewcard__label" for="id">ID</label>
-          <input
-            class="viewcard__input"
-            disabled
-            id="id"
-            name="id"
-            type="text"
-          />
-        </p>
-        <p>
-          <label class="viewcard__label" for="namecat">Имя кота</label>
-          <input
-            class="viewcard__input"
-            disabled
-            id="namecat"
-            name="namecat"
-            type="text"
-          />
-        </p>
-        <p>
-          <label class="viewcard__label" for="favorite">В избранном</label>
-          <select
-            disabled
-            class="viewcard__select"
-            id="favorite"
-            name="favorite"
-          >
+    <main id="main">
+      <!-- Шаблон карточки -->
+      <template>
+        <div class="card">
+          <div class="card-like">
+            <img
+              class="card-like__img"
+              src="icons/heart.svg"
+              alt="icon-heart"
+            />
+          </div>
+          <span class="nickname">Гарфильд</span>
+          <div class="card-delete">
+            <p>Нажмите на карточке для удаления</p>
+            <img
+              class="card-delete__img"
+              src="icons/trash-red.svg"
+              alt="icon-trash"
+            />
+          </div>
+        </div>
+      </template>
+      <!-- Шаблон карточки -->
+    </main>
+
+    <dialog id="modalWindow" class="modal">
+      <div id="modalImg" class="modal__img"></div>
+      <form id="modal-form" class="modal-form">
+        <div class="modal-box">
+          <label class="modal__label" for="id">ID</label>
+          <input disabled class="modal__input" type="text" id="id" />
+        </div>
+        <div class="modal-box">
+          <label class="modal__label" for="namecat">Имя</label>
+          <input disabled class="modal__input" type="text" id="namecat" />
+        </div>
+        <div class="modal-box">
+          <label class="modal__label" for="favorite">В избранном</label>
+          <select disabled class="modal__select" id="favorite">
             <option value="true">Да</option>
             <option value="false">Нет</option>
           </select>
-        </p>
-        <p>
-          <label class="viewcard__label" for="rate">Оценка</label>
-          <select disabled class="viewcard__select" name="rate" id="rate">
+        </div>
+        <div class="modal-box">
+          <label class="modal__label" for="rate">Оценка</label>
+          <select disabled class="modal__select" id="rate">
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -70,10 +76,10 @@
             <option value="9">9</option>
             <option value="10">10</option>
           </select>
-        </p>
-        <p>
-          <label class="viewcard__label" for="age">Возраст</label>
-          <select disabled class="viewcard__select" name="age" id="age">
+        </div>
+        <div class="modal-box">
+          <label class="modal__label" for="age">Возраст</label>
+          <select disabled class="modal__select" id="age">
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -85,38 +91,34 @@
             <option value="9">9</option>
             <option value="10">10</option>
           </select>
-        </p>
-        <label class="viewcard__label" for="description">Описание</label>
-        <textarea
-          class="viewcard__textarea"
-          disabled
-          name="description"
-          id="description"
-          rows="3"
-          cols="33"
-        ></textarea>
-        <label class="viewcard__label" for="link">Ссылка на фото</label>
-        <textarea
-          disabled
-          class="viewcard__textarea"
-          name="image"
-          id="image"
-          cols="33"
-          rows="2"
-        ></textarea>
-      </div>
+        </div>
+        <div>
+          <label class="modal__label" for="description">Описание</label>
+          <textarea
+            disabled
+            class="modal__textarea"
+            id="description"
+            rows="3"
+            cols="31"
+          ></textarea>
+        </div>
+        <div>
+          <label class="modal__label" for="image">Ссылка на фото</label>
+          <textarea
+            disabled
+            class="modal__textarea"
+            id="image"
+            cols="31"
+            rows="3"
+          ></textarea>
+        </div>
+      </form>
 
-    </form>
-      <div id="message" class="message"></div>
-      <div class="button-container">
-        <button id="add" class="button add">Добавить</button>
-        <button id="edit" class="button edit">Редактировать</button>
-      </div>
-      <div class="button-container">
-        <button id="deletecat" class="button delete">Удалить</button>
-        <button id="closecard" class="button close">Закрыть</button>
+      <div class="modal-container">
+        <span id="message" class="message"></span>
+        <button id="btnEdit" class="button edit">Редактировать</button>
+        <button id="btnClose" class="button close">Закрыть</button>
       </div>
     </dialog>
-    <script src="index.js"></script>
   </body>
 </html>

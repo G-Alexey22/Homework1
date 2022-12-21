@@ -1,4 +1,4 @@
-//Функция для отображения всех котов на странице
+// Зарузка данных в карточку с сервера
 showAllCats();
 
 function showAllCats() {
@@ -6,28 +6,45 @@ function showAllCats() {
     .then((Response) => Response.json())
     .then((cats) => {
       for (const item of cats) {
-        const div = document.createElement("div");
-        div.setAttribute("id", item.id);
-        div.classList.add("card");
-        const name = document.createElement("span");
-        name.classList.add("card__name");
-        name.innerHTML = item.name;
-        const foto = document.createElement("img");
-        foto.classList.add("card__foto");
-        foto.src = item.image;
-        foto.alt = "image cat";
-        div.append(name, foto);
-        document.querySelector("main").append(div);
+        const card = document.createElement("div");
+        card.classList.add("card");
+        card.style.backgroundImage = `url(${item.image})`;
+        card.setAttribute("id", item.id);
+        const cardLike = document.createElement("div");
+        cardLike.classList.add("card-like");
+        const cardLikeImg = document.createElement("img");
+        cardLikeImg.classList.add("card-like__img");
+        if (item.favorite) {
+          cardLikeImg.setAttribute("src", "icons/heart.svg");
+        } else {
+          cardLikeImg.setAttribute("src", "icons/heart-black.svg");
+        }
+        cardLikeImg.setAttribute("alt", "icon-heart");
+        cardLike.append(cardLikeImg);
+        const cardLikeSpan = document.createElement("span");
+        cardLikeSpan.classList.add("nickname");
+        cardLikeSpan.innerHTML = item.name;
+        const cardDelete = document.createElement("div");
+        cardDelete.classList.add("card-delete");
+        const p = document.createElement("p");
+        p.innerHTML = "Нажмите на карточке для удаления";
+        const cardDeleteImg = document.createElement("img");
+        cardDeleteImg.classList.add("card-delete__img");
+        cardDeleteImg.setAttribute("src", "icons/trash-red.svg");
+        cardDeleteImg.setAttribute("alt", "icon-trash");
+        cardDelete.append(p, cardDeleteImg);
+        card.append(cardLike, cardLikeSpan, cardDelete);
+        main.append(card);
       }
     });
 }
 
 //Функция для отображения информации в модальном окне по id
-function getCatsById(idcat) {
-  fetch("https://cats.petiteweb.dev/api/single/g-alexey22/show/" + idcat)
+function getCatsById(catid) {
+  fetch("https://cats.petiteweb.dev/api/single/g-alexey22/show/" + catid)
     .then((Response) => Response.json())
     .then((cat) => {
-      foto.setAttribute("src", cat.image);
+      modalImg.style.backgroundImage = `url(${cat.image})`;
       id.value = cat.id;
       namecat.value = cat.name;
       if (cat.favorite == true) {
@@ -41,71 +58,6 @@ function getCatsById(idcat) {
       image.innerHTML = cat.image;
     });
 }
-
-//Открытие модально окна
-main.addEventListener("click", (event) => {
-  const teg = event.target.classList.contains("card");
-  if (teg) {
-    const idcat = event.target.getAttribute("id");
-    showcard.showModal();
-    getCatsById(idcat);
-  }
-});
-
-//Закрытие модально окна
-closecard.addEventListener("click", () => {
-  showcard.close();
-  deleteClassActive();
-  edit.innerHTML = "Редактировать";
-  location.reload();
-});
-
-//Функция добавления класса Active
-function addClassActive() {
-  favorite.disabled = false;
-  rate.disabled = false;
-  age.disabled = false;
-  description.disabled = false;
-  image.disabled = false;
-  favorite.classList.add("active");
-  rate.classList.add("active");
-  age.classList.add("active");
-  description.classList.add("active");
-  image.classList.add("active");
-}
-
-//Функция удаления класса Active
-function deleteClassActive() {
-  favorite.disabled = true;
-  rate.disabled = true;
-  age.disabled = true;
-  description.disabled = true;
-  image.disabled = true;
-  favorite.classList.remove("active");
-  rate.classList.remove("active");
-  age.classList.remove("active");
-  description.classList.remove("active");
-  image.classList.remove("active");
-}
-
-// Редактирование и сохранение кота по ID
-edit.addEventListener("click", () => {
-  const editButton = edit.innerText;
-  switch (editButton) {
-    case "Редактировать":
-      add.disabled = true;
-      deletecat.disabled = true;
-      addClassActive();
-      edit.innerHTML = "Сохранить";
-      message.innerHTML = "";
-      break;
-    case "Сохранить":
-      changeCatById();
-      deleteClassActive();
-      edit.innerHTML = "Редактировать";
-      break;
-  }
-});
 
 //Функция изменения кота по ID
 function changeCatById() {
@@ -139,59 +91,52 @@ function changeCatById() {
     });
 }
 
-//Удаление кота
-deletecat.addEventListener("click", () => {
-  const deleteCat = id.value;
-  fetch(
-    "https://cats.petiteweb.dev/api/single/g-alexey22/delete/" + deleteCat,
-    {
-      method: "DELETE",
-      headers: {
-        Accept: "application/json",
-      },
-    }
-  )
+//Функция удаления кота по ID
+function deleteCat() {
+  const catId = id.value;
+  fetch("https://cats.petiteweb.dev/api/single/g-alexey22/delete/" + catId, {
+    method: "DELETE",
+    headers: {
+      Accept: "application/json",
+    },
+  })
     .then((response) => response.json())
     .then((answer) => (message.innerHTML = answer.message))
     .catch((answer) => (message.innerHTML = answer.message));
-  deletecat.disabled = true;
-  edit.disabled = true;
-});
-
-//Функция очистки формы при нажатии на кнопку Добавить
-function clearForm() {
-  deletecat.disabled = true;
-  edit.disabled = true;
-  id.value = "";
-  namecat.value = "";
-  favorite.selectedIndex = 0;
-  rate.selectedIndex = 0;
-  age.selectedIndex = 0;
-  description.innerHTML = "";
-  image.innerHTML = "";
-  namecat.disabled = false;
-  namecat.classList.add("active");
-  addClassActive();
 }
 
-//Добавление кота
-add.addEventListener("click", () => {
-  const addButton = add.innerText;
-  switch (addButton) {
-    case "Добавить":
-      edit.disabled = true;
-      deletecat.disabled = true;
-      fetch("https://cats.petiteweb.dev/api/single/g-alexey22/show/")
-        .then((Response) => Response.json())
-        .then((cats) => {
-          clearForm();
-          id.value = cats[cats.length-1].id + 1;
-         add.innerHTML = "Сохранить";
-         readingDataFromLS()
-         foto.setAttribute("src", image.value)
-        });
+//Открытие модально окна при нажатии на карточку
+main.addEventListener("click", (event) => {
+  const card = event.target.classList.contains("card");
+  if (card) {
+    const catid = event.target.getAttribute("id");
+    modalWindow.showModal();
+    getCatsById(catid);
+  }
+});
+
+//Закрытие модального окна при нажатии на кнопку закрыть
+btnClose.addEventListener("click", () => {
+  deleteClassActive();
+  modalWindow.close();
+  location.reload();
+});
+
+// Кнопка Редактирование и сохранение кота по ID
+btnEdit.addEventListener("click", () => {
+  switch (btnEdit.innerHTML) {
+    case "Редактировать":
+      addClassActive();
+      btnEdit.innerHTML = "Сохранить изменения";
+      message.innerHTML = "";
+      break;
+    case "Сохранить изменения":
+      changeCatById();
+      deleteClassActive();
+      btnEdit.innerHTML = "Редактировать";
       break;
     case "Сохранить":
+      btnEdit.innerHTML = "Редактировать";
       const newCat = {
         id: id.value,
         name: namecat.value,
@@ -221,39 +166,136 @@ add.addEventListener("click", () => {
           .then((response) => response.json())
           .then((answer) => (message.innerHTML = answer.message))
           .catch((answer) => (message.innerHTML = answer.message));
+          localStorage.clear()
       }
       break;
   }
 });
 
-//Запись данных с формы в LocalStore
-const myForm = document.getElementById("formmodal");
-const LS = localStorage;
-let formData = {
-  namecat: '',
-  favorite: favorite.value,
-  rate: rate.value,
-  age: age.value,
-  description: '',
-  image: '',
-};
-myForm.addEventListener("input", (event) => {
-  formData[event.target.name] = event.target.value
-  LS.setItem("formData", JSON.stringify(formData));
+//Кнопка Добавить кота
+document.getElementById("btnAdd").addEventListener("click", () => {
+  modalWindow.showModal();
+  btnEdit.innerHTML = "Сохранить";
+  favorite.selectedIndex = 1;
+  namecat.disabled = false;
+  namecat.classList.add("active");
+  addClassActive();
+  fetch("https://cats.petiteweb.dev/api/single/g-alexey22/show/")
+    .then((Response) => Response.json())
+    .then((cats) => {
+      id.value = cats[cats.length - 1].id + 1;
+      readingDataFromLS();
+      modalImg.style.backgroundImage = `url(${image.value})`;
+    });
 });
 
-
-//Чтение данных из LocalStore
-function readingDataFromLS(){
-if(LS.getItem('formData')){
-  formData = JSON.parse(LS.getItem('formData'))
-  for (const key in formData) {
-    myForm.elements[key].value = formData[key]
+//Кнопка Удалить кота
+btnDelete.addEventListener("click", () => {
+  const arrayOfCard = document.querySelectorAll(".card-delete");
+  switch (btnDelete.innerHTML) {
+    case "Удалить":
+      btnAdd.disabled = true;
+      for (const item of arrayOfCard) {
+        item.style.display = "block";
+      }
+      btnDelete.style.width = "200px";
+      setTimeout(() => {
+        btnDelete.innerHTML = "Отменить удаление";
+      }, 500);
+      break;
+    case "Отменить удаление":
+      btnAdd.disabled = false;
+      for (const item of arrayOfCard) {
+        item.style.display = "none";
+      }
+      btnDelete.innerHTML = "Удалить";
+      btnDelete.style.width = "100px";
+      break;
   }
-  message.innerHTML = 'Поля заполнены из Local Storage'
-}}
+});
+
+//Удаление кота при нажатии на карточку
+main.addEventListener("click", (event) => {
+  if (event.target.classList.contains("card-delete")) {
+    const catId = event.target.closest(".card").getAttribute("id");
+
+    fetch("https://cats.petiteweb.dev/api/single/g-alexey22/delete/" + catId, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((response) => response.json())
+
+      .then((answer) => {
+        event.target.firstElementChild.style.color = "green";
+        event.target.firstElementChild.innerHTML = answer.message;
+        event.target.lastElementChild.setAttribute(
+          "src",
+          "icons/trash-limegreen.svg"
+        );
+
+        setTimeout(() => {
+          document.getElementById(catId).classList.add("hide");
+          setTimeout(() => {
+            document.getElementById(catId).remove();
+          }, 1000);
+        }, 1500);
+      })
+      .catch(
+        (answer) => (event.target.firstElementChild.innerHTML = answer.message)
+      );
+  }
+});
+
+//Функция удаления класса Active
+function addClassActive() {
+  const s = document.querySelectorAll("select");
+  const t = document.querySelectorAll("textarea");
+  const all = [...s, ...t];
+  for (const item of all) {
+    item.disabled = false;
+    item.classList.add("active");
+  }
+}
+//Функция добавления класса Active
+function deleteClassActive() {
+  const s = document.querySelectorAll("select");
+  const t = document.querySelectorAll("textarea");
+  const all = [...s, ...t];
+  for (const item of all) {
+    item.disabled = true;
+    item.classList.remove("active");
+  }
+}
 
 //Автообновление изображения в карточке
-image.addEventListener('input',(event) => {
-  foto.setAttribute("src", image.value);
-})
+image.addEventListener("input", (event) => {
+  modalImg.style.backgroundImage = `url(${image.value})`;
+});
+
+//Запись данных с формы в LocalStorage
+const myForm = document.getElementById("modal-form");
+let formData = {
+  namecat: "",
+  favorite: false,
+  rate: rate.value,
+  age: age.value,
+  description: "",
+  image: "",
+};
+myForm.addEventListener("input", (event) => {
+  formData[event.target.id] = event.target.value;
+  localStorage.setItem("formData", JSON.stringify(formData));
+});
+
+//Чтение данных из LocalStore
+function readingDataFromLS() {
+  if (localStorage.getItem("formData")) {
+    formData = JSON.parse(localStorage.getItem("formData"));
+    for (const key in formData) {
+      myForm.elements[key].value = formData[key];
+    }
+    message.innerHTML = "Поля заполнены из Local Storage";
+  }
+}
